@@ -1,4 +1,6 @@
+using AppCore.Features.Results;
 using AppCore.Interfaces.Repositories;
+using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Dtos;
 using AC = AppCore.Features.Commands;
@@ -17,55 +19,66 @@ public class TaskController(ITaskRepository Repository) : ControllerBase
     [HttpGet()]
     public IActionResult GetById(int id)
     {
-        DE.Task task = Repository.Handle(new AQ.GetTaskByIdQuery(id));
-        if (task == null)
-            return NotFound();
+        Result<DE.Task> result = Repository.Handle(new AQ.GetTaskByIdQuery(id));
+        return this.FromResult(result);
+    }
 
-        return Ok(task);
+    [Route("GetAsync/{id}")]
+    [HttpGet()]
+    public async Task<IActionResult> GetByIdAsync(int id)
+    {
+        Result<DE.Task> result = await Repository.HandleAsync(new AQ.GetTaskByIdQuery(id));
+        return this.FromResult(result);
     }
 
     [Route("Get")]
     [HttpGet]
     public IActionResult GetAll()
     {
-        IEnumerable<DE.Task> tasks = Repository.Handle(new AQ.GetAllTasksQuery());
+        Result<IEnumerable<DE.Task>> result = Repository.Handle(new AQ.GetAllTasksQuery());
+        return this.FromResult(result);
+    }
 
-        if (tasks == null || tasks.Count() <= 0)
-            return NotFound();
-
-        return Ok(tasks);
+    [Route("GetAsync")]
+    [HttpGet]
+    public async Task<IActionResult> GetAllAsync()
+    {
+        Result<IEnumerable<DE.Task>> result = await Repository.HandleAsync(
+            new AQ.GetAllTasksQuery()
+        );
+        return this.FromResult(result);
     }
 
     [Route("Complete/{id}")]
     [HttpPatch]
     public IActionResult UpdateCompletion(int id)
     {
-        bool result = Repository.Handle(new AC.UpdateTaskCompletionCommand(id));
-        return result ? Ok(result) : NotFound();
+        Result result = Repository.Handle(new AC.UpdateTaskCompletionCommand(id));
+        return this.FromResult(result);
     }
 
     [Route("Update/{id}")]
     [HttpPut]
-    public IActionResult Update(int id, [FromBody] TaskDto dto)
+    public IActionResult Update(int id, [FromBody] UpdateTaskDto dto)
     {
-        bool result = Repository.Handle(new AC.UpdateTaskCommand(id, dto.Title));
-        return result ? Ok(result) : NotFound();
+        Result result = Repository.Handle(new AC.UpdateTaskCommand(id, dto.Title, dto.Completed));
+        return this.FromResult(result);
     }
 
     [Route("Delete/{id}")]
     [HttpDelete]
     public IActionResult Delete(int id)
     {
-        bool result = Repository.Handle(new AC.DeleteTaskCommand(id));
-        return result ? Ok(result) : NotFound();
+        Result result = Repository.Handle(new AC.DeleteTaskCommand(id));
+        return this.FromResult(result);
     }
 
     [Route("Add")]
     [HttpPost]
-    public IActionResult Add([FromBody] TaskDto dto)
+    public IActionResult Add([FromBody] CreateTaskDto dto)
     {
         //TODO the result shoudl be the id of the new element !
-        bool result = Repository.Handle(new AC.AddTaskCommand(dto.Title));
-        return result ? Ok(result) : NotFound();
+        Result<int> result = Repository.Handle(new AC.AddTaskCommand(dto.Title));
+        return this.FromResult(result);
     }
 }

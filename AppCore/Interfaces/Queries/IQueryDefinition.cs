@@ -1,3 +1,3 @@
 namespace AppCore.Interfaces.Queries;
 
-public interface IQueryDefinition<TResult> { }
+public interface IQueryDefinition<TResult>;
