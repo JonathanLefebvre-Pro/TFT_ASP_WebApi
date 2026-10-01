@@ -63,6 +63,11 @@ public class Result<TResult>
         return Success(data);
     }
 
+    /*public static implicit operator Result<TResult>(TResult data) where TResult : IEnumerable<TResult>
+    {
+        return Success(data);
+    }*/
+
     public static Result<TResult> Success(TResult data)
     {
         if (data is null)

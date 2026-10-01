@@ -30,9 +30,9 @@ public class TaskRepository : ITaskRepository
     {
         string sqlQuery = @"SELECT id, title, creationDate, done FROM Tasks";
 
-        Task<IEnumerable<DE.Task>> tasks = _dbConnection.QueryAsync<DE.Task>(sqlQuery);
+        /*IEnumerable<DE.Task> tasks =*/return (await _dbConnection.QueryAsync<DE.Task>(sqlQuery)).ToList();
 
-        return tasks.Result.ToList();
+        //return Result<IEnumerable<DE.Task>>.Success(tasks);
     }
 
     public Result<DE.Task> Handle(GetTaskByIdQuery query)
@@ -57,15 +57,15 @@ public class TaskRepository : ITaskRepository
 
         string sqlQuery = @"SELECT * FROM Tasks WHERE id=@id";
 
-        Task<DE.Task?> task = _dbConnection.QuerySingleOrDefaultAsync<DE.Task>(
+        DE.Task? task = await _dbConnection.QuerySingleOrDefaultAsync<DE.Task>(
             sqlQuery,
             parameters
         );
 
-        if (task.Result is null)
+        if (task is null)
             return TaskError.NotFound;
 
-        return task.Result;
+        return task;
     }
 
     public Result<int> Handle(AddTaskCommand command)
