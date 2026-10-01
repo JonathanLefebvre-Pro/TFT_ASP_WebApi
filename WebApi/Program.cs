@@ -1,8 +1,8 @@
 using System.Data.Common;
-using AppCore.Interfaces.Repositories;
-using Infrastructure.Services;
 using Microsoft.Data.SqlClient;
 using Scalar.AspNetCore;
+using WebApi.AppCore.Interfaces.Repositories;
+using WebApi.Infrastructure.Services;
 
 string connectionString =
     @"Data Source=JONATHAN\DATAVIZ;Initial Catalog=ASP_WebApi;Integrated Security=True;Trust Server Certificate=True";

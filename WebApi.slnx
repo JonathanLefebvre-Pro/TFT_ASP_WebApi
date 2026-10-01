@@ -1,6 +1,6 @@
 <Solution>
-  <Project Path="AppCore/AppCore.csproj" />
-  <Project Path="Domain/Domain.csproj" />
-  <Project Path="Infrastructure/Infrastructure.csproj" />
+  <Project Path="WebApi.AppCore/WebApi.AppCore.csproj" />
+  <Project Path="WebApi.Domain/WebApi.Domain.csproj" />
+  <Project Path="WebApi.Infrastructure/WebApi.Infrastructure.csproj" />
   <Project Path="WebApi/WebApi.csproj" />
 </Solution>

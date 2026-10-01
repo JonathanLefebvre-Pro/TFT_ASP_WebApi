@@ -1,11 +1,11 @@
-using AppCore.Features.Results;
-using AppCore.Interfaces.Repositories;
-using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.AppCore.Features.Results;
+using WebApi.AppCore.Interfaces.Repositories;
 using WebApi.Dtos;
-using AC = AppCore.Features.Commands;
-using AQ = AppCore.Features.Queries;
-using DE = Domain.Entities;
+using WebApi.Infrastructure.Extensions;
+using AC = WebApi.AppCore.Features.Commands;
+using AQ = WebApi.AppCore.Features.Queries;
+using DE = WebApi.Domain.Entities;
 
 namespace WebApi.Controllers;
 

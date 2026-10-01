@@ -1,7 +1,7 @@
-using AppCore.Features.Results;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.AppCore.Features.Results;
 
-namespace Infrastructure.Extensions;
+namespace WebApi.Infrastructure.Extensions;
 
 public static class ControllerBaseExtensions
 {
