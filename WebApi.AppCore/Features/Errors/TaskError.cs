@@ -9,4 +9,6 @@ public static class TaskError
     public static Error NotDeleted => new Error("TaskError.NotDeleted", "Task was not deleted !");
     public static Error AlreadyCompleted =>
         new Error("TaskError.AlreadyCompleted", "Task was already completed !");
+    public static Error TableIsEmpty =>
+        new Error("TaskError.TableIsEmpty", "Task table is empty !");
 }

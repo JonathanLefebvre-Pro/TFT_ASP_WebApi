@@ -23,16 +23,40 @@ public class TaskRepository : ITaskRepository
     {
         string sqlQuery = @"SELECT id, title, creationDate, done FROM Tasks";
 
-        return _dbConnection.Query<DE.Task>(sqlQuery).ToList();
+        //Manage the exception if the table does not exist or if the table is empty
+        try
+        {
+            IEnumerable<DE.Task> tasks = _dbConnection.Query<DE.Task>(sqlQuery);
+
+            if (tasks is null || tasks.Count() is 0)
+                return TaskError.TableIsEmpty;
+
+            return tasks.ToList();
+        }
+        catch (Exception ex)
+        {
+            return ex;
+        }
     }
 
     public async Task<Result<IEnumerable<DE.Task>>> HandleAsync(GetAllTasksQuery query)
     {
         string sqlQuery = @"SELECT id, title, creationDate, done FROM Tasks";
 
-        /*IEnumerable<DE.Task> tasks =*/return (await _dbConnection.QueryAsync<DE.Task>(sqlQuery)).ToList();
+        //Manage the exception if the table does not exist or if the table is empty
+        try
+        {
+            IEnumerable<DE.Task> tasks = await _dbConnection.QueryAsync<DE.Task>(sqlQuery);
 
-        //return Result<IEnumerable<DE.Task>>.Success(tasks);
+            if (tasks is null || tasks.Count() is 0)
+                return TaskError.TableIsEmpty;
+
+            return tasks.ToList();
+        }
+        catch (Exception ex)
+        {
+            return ex;
+        }
     }
 
     public Result<DE.Task> Handle(GetTaskByIdQuery query)
@@ -42,12 +66,19 @@ public class TaskRepository : ITaskRepository
 
         string sqlQuery = @"SELECT * FROM Tasks WHERE id=@id";
 
-        DE.Task? task = _dbConnection.QuerySingleOrDefault<DE.Task>(sqlQuery, parameters);
+        try
+        {
+            DE.Task? task = _dbConnection.QuerySingleOrDefault<DE.Task>(sqlQuery, parameters);
 
-        if (task is null)
-            return TaskError.NotFound;
+            if (task is null)
+                return TaskError.NotFound;
 
-        return task;
+            return task;
+        }
+        catch (Exception ex)
+        {
+            return ex;
+        }
     }
 
     public async Task<Result<DE.Task>> HandleAsync(GetTaskByIdQuery query)
@@ -57,15 +88,22 @@ public class TaskRepository : ITaskRepository
 
         string sqlQuery = @"SELECT * FROM Tasks WHERE id=@id";
 
-        DE.Task? task = await _dbConnection.QuerySingleOrDefaultAsync<DE.Task>(
-            sqlQuery,
-            parameters
-        );
+        try
+        {
+            DE.Task? task = await _dbConnection.QuerySingleOrDefaultAsync<DE.Task>(
+                sqlQuery,
+                parameters
+            );
 
-        if (task is null)
-            return TaskError.NotFound;
+            if (task is null)
+                return TaskError.NotFound;
 
-        return task;
+            return task;
+        }
+        catch (Exception ex)
+        {
+            return ex;
+        }
     }
 
     public Result<int> Handle(AddTaskCommand command)

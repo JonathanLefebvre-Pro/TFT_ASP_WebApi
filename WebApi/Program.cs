@@ -4,8 +4,11 @@ using Scalar.AspNetCore;
 using WebApi.AppCore.Interfaces.Repositories;
 using WebApi.Infrastructure.Services;
 
+string conStringTFT = @"GOS-VDI406\TFTIC";
+string conStringJo = @"JONATHAN\DATAVIZ";
+
 string connectionString =
-    @"Data Source=JONATHAN\DATAVIZ;Initial Catalog=ASP_WebApi;Integrated Security=True;Trust Server Certificate=True";
+    @"Data Source="+ conStringTFT +@";Initial Catalog=ASP_WebApi;Integrated Security=True;Trust Server Certificate=True";
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

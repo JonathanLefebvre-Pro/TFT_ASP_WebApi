@@ -16,3 +16,7 @@ VALUES
 GO
 
 SELECT * FROM Tasks
+
+GO
+
+DROP TABLE dbo.Tasks
