@@ -61,7 +61,7 @@ public class TaskController(ITaskRepository Repository) : ControllerBase
     [HttpPut]
     public IActionResult Update(int id, [FromBody] UpdateTaskDto dto)
     {
-        Result result = Repository.Handle(new AC.UpdateTaskCommand(id, dto.Title, dto.Completed));
+        Result result = Repository.Handle(new AC.UpdateTaskCommand(id, dto.Title, dto.Done));
         return this.FromResult(result);
     }
 
