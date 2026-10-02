@@ -21,7 +21,7 @@ public class TaskRepository : ITaskRepository
 
     public Result<IEnumerable<DE.Task>> Handle(GetAllTasksQuery query)
     {
-        string sqlQuery = @"SELECT id, title, creationDate, done FROM Tasks";
+        string sqlQuery = @"SELECT id, title, creationDate, isCompleted FROM Tasks";
 
         //Manage the exception if the table does not exist or if the table is empty
         try
@@ -41,7 +41,7 @@ public class TaskRepository : ITaskRepository
 
     public async Task<Result<IEnumerable<DE.Task>>> HandleAsync(GetAllTasksQuery query)
     {
-        string sqlQuery = @"SELECT id, title, creationDate, done FROM Tasks";
+        string sqlQuery = @"SELECT id, title, creationDate, isCompleted FROM Tasks";
 
         //Manage the exception if the table does not exist or if the table is empty
         try
@@ -133,9 +133,9 @@ public class TaskRepository : ITaskRepository
         DynamicParameters parameters = new DynamicParameters();
         parameters.Add("@id", command.Id);
         parameters.Add("@title", command.Title);
-        parameters.Add("@completed", command.Completed);
+        parameters.Add("@isCompleted", command.IsCompleted);
 
-        string sqlQuery = @"UPDATE Tasks SET title=@title, done=@completed WHERE id=@id";
+        string sqlQuery = @"UPDATE Tasks SET title=@title, isCompleted=@isCompleted WHERE id=@id";
 
         try
         {
@@ -158,13 +158,13 @@ public class TaskRepository : ITaskRepository
         if (task.IsFailure)
             return TaskError.NotFound;
 
-        if (task.Data.Done)
+        if (task.Data.IsCompleted)
             return TaskError.AlreadyCompleted;
 
         DynamicParameters parameters = new DynamicParameters();
         parameters.Add("@id", command.Id);
 
-        string sqlQuery = @"UPDATE Tasks SET done=1 WHERE id=@id AND done=0";
+        string sqlQuery = @"UPDATE Tasks SET isCompleted=1 WHERE id=@id AND isCompleted=0";
 
         try
         {

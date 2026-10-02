@@ -8,7 +8,9 @@ string conStringTFT = @"GOS-VDI406\TFTIC";
 string conStringJo = @"JONATHAN\DATAVIZ";
 
 string connectionString =
-    @"Data Source="+ conStringTFT +@";Initial Catalog=ASP_WebApi;Integrated Security=True;Trust Server Certificate=True";
+    @"Data Source="
+    + conStringJo
+    + @";Initial Catalog=ASP_WebApi;Integrated Security=True;Trust Server Certificate=True";
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

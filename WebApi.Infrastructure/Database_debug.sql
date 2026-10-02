@@ -6,7 +6,7 @@ CREATE TABLE Tasks (
     id INT IDENTITY PRIMARY KEY,
     title NVARCHAR(50) NOT NULL UNIQUE,
     creationDate DATETIME2(7) DEFAULT SYSDATETIME(),
-    done bit DEFAULT 0
+    isCompleted bit DEFAULT 0
 );
 
 INSERT INTO Tasks (title)
@@ -20,3 +20,5 @@ SELECT * FROM Tasks
 GO
 
 DROP TABLE dbo.Tasks
+
+GO
